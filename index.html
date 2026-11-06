@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="SkillHub — онлайн-школа цифровых профессий. Практические курсы по фронтенду, бэкенду, дизайну, аналитике, мобильной разработке и маркетингу.">
+<title>SkillHub — онлайн-школа цифровых профессий</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     БАЗА
+     ============================================================ */
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --bg: #f5f6fb;
+    --surface: #ffffff;
+    --text: #131627;
+    --muted: #646a85;
+    --accent: #5b57f5;
+    --accent-2: #9b5cf6;
+    --border: #e5e7f2;
+    --danger: #e5484d;
+    --radius: 18px;
+    --shadow-sm: 0 4px 14px rgba(19, 22, 39, .06);
+    --shadow-md: 0 14px 34px rgba(19, 22, 39, .10);
+  }
+
+  [hidden] { display: none !important; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(720px 420px at 8% -8%, #e4e5ff 0%, rgba(228, 229, 255, 0) 70%),
+      radial-gradient(680px 420px at 100% 0%, #e2f2ff 0%, rgba(226, 242, 255, 0) 65%);
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* ============================================================
+     ШАПКА
+     ============================================================ */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: rgba(245, 246, 251, .82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(229, 231, 242, .9);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    height: 64px;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 17px;
+    letter-spacing: -.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #fff;
+    font-size: 17px;
+    font-weight: 800;
+    box-shadow: 0 8px 18px rgba(91, 87, 245, .32);
+  }
+
+  .header-tag {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  /* ============================================================
+     ЭКРАНЫ
+     ============================================================ */
+  .screen { display: none; padding: 32px 0 72px; }
+  .screen.is-active { display: block; animation: screen-in .3s ease; }
+
+  @keyframes screen-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============================================================
+     КАТАЛОГ
+     ============================================================ */
+  .hero { margin-bottom: 26px; }
+
+  .hero h1 {
+    margin: 0 0 12px;
+    font-size: clamp(26px, 4.4vw, 42px);
+    line-height: 1.12;
+    letter-spacing: -.035em;
+    font-weight: 800;
+  }
+
+  .hero h1 .accent {
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero p {
+    margin: 0;
+    max-width: 640px;
+    color: var(--muted);
+    font-size: clamp(15px, 1.7vw, 17px);
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 24px 0;
+  }
+
+  .chip {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 9px 18px;
+    cursor: pointer;
+    transition: background .18s ease, color .18s ease, border-color .18s ease,
+                transform .18s ease, box-shadow .18s ease;
+  }
+
+  .chip:hover {
+    color: var(--text);
+    border-color: #c3c7ef;
+    transform: translateY(-1px);
+  }
+
+  .chip.is-active {
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    border-color: transparent;
+    box-shadow: 0 8px 20px rgba(91, 87, 245, .3);
+  }
+
+  .cards {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: #d9dcf3;
+  }
+
+  .badge {
+    align-self: flex-start;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(91, 87, 245, .1);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  .card-title {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.25;
+    letter-spacing: -.02em;
+  }
+
+  .card-text {
+    margin: 0;
+    flex: 1 1 auto;
+    color: var(--muted);
+    font-size: 14.5px;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .card-price {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    white-space: nowrap;
+  }
+
+  /* ============================================================
+     КНОПКИ
+     ============================================================ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform .16s ease, box-shadow .16s ease, background .16s ease,
+                border-color .16s ease, color .16s ease;
+  }
+
+  .btn:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(91, 87, 245, .3); }
+  .btn:active { transform: translateY(1px); }
+
+  .btn-primary {
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 10px 24px rgba(91, 87, 245, .3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgba(91, 87, 245, .4);
+  }
+
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-ghost {
+    color: var(--text);
+    background: var(--surface);
+    border-color: var(--border);
+  }
+
+  .btn-ghost:hover { color: var(--accent); border-color: #c3c7ef; }
+
+  .btn-sm { padding: 9px 16px; font-size: 14px; border-radius: 11px; }
+  .btn-block { width: 100%; }
+
+  /* ============================================================
+     КАРТОЧКА КУРСА
+     ============================================================ */
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 0;
+    margin-bottom: 18px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color .16s ease;
+  }
+
+  .back-btn:hover { color: var(--accent); }
+
+  .course-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px 40px;
+    margin-bottom: 18px;
+  }
+
+  .course-title-wrap { flex: 1 1 420px; min-width: 0; }
+
+  .course-title {
+    margin: 0 0 12px;
+    font-size: clamp(24px, 3.6vw, 36px);
+    line-height: 1.15;
+    letter-spacing: -.035em;
+  }
+
+  .course-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .meta-pill {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 7px 14px;
+  }
+
+  .course-price-box {
+    flex: 0 0 auto;
+    min-width: 190px;
+    padding: 14px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .course-price-box .label {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .course-price-box .value {
+    margin-top: 2px;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+  }
+
+  .course-price-box .duration {
+    margin-top: 2px;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+
+  .course-desc {
+    margin: 0 0 28px;
+    max-width: 780px;
+    color: var(--muted);
+    font-size: 15.5px;
+  }
+
+  .section-title {
+    margin: 0 0 14px;
+    font-size: 20px;
+    letter-spacing: -.02em;
+  }
+
+  .tariffs {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  .tariff {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 20px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+  }
+
+  .tariff:hover { border-color: #c3c7ef; transform: translateY(-2px); }
+
+  .tariff:focus-visible { box-shadow: 0 0 0 4px rgba(91, 87, 245, .22); }
+
+  .tariff.is-selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(91, 87, 245, .12), var(--shadow-md);
+  }
+
+  .tariff-check {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: #fff;
+    display: grid;
+    place-items: center;
+    transition: border-color .18s ease, background .18s ease;
+  }
+
+  .tariff-check::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    transform: scale(0);
+    transition: transform .18s ease;
+  }
+
+  .tariff.is-selected .tariff-check {
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+
+  .tariff.is-selected .tariff-check::after { transform: scale(1); }
+
+  .tariff-name {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .tariff-price {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+  }
+
+  .tariff-features {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .tariff-features li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .tariff-features li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  .cta-bar {
+    position: sticky;
+    bottom: 14px;
+    z-index: 20;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 32px;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, .92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 -2px 30px rgba(19, 22, 39, .10);
+  }
+
+  .cta-info { display: flex; flex-direction: column; gap: 1px; }
+
+  .cta-tariff { font-size: 13px; font-weight: 600; color: var(--muted); }
+
+  .cta-price { font-size: 20px; font-weight: 800; letter-spacing: -.03em; }
+
+  .cta-bar .btn { flex: 1 1 220px; max-width: 340px; }
+
+  /* ============================================================
+     ФОРМА
+     ============================================================ */
+  .form-card {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .form-title {
+    margin: 0 0 6px;
+    font-size: clamp(22px, 3vw, 28px);
+    letter-spacing: -.03em;
+  }
+
+  .form-subtitle {
+    margin: 0 0 22px;
+    font-size: 14.5px;
+    color: var(--muted);
+  }
+
+  .progress { margin-bottom: 24px; }
+
+  .progress-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .progress-track {
+    height: 8px;
+    background: #eceef6;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 50%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width .35s ease;
+  }
+
+  .field { margin-bottom: 16px; }
+
+  .field label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .field .req { color: var(--accent); }
+
+  .field input {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--text);
+    background: #fbfbfe;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: border-color .16s ease, box-shadow .16s ease, background .16s ease;
+  }
+
+  .field input::placeholder { color: #a2a7bd; }
+
+  .field input:focus {
+    outline: none;
+    background: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(91, 87, 245, .12);
+  }
+
+  .field input.is-invalid {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 4px rgba(229, 72, 77, .12);
+  }
+
+  .error-msg {
+    display: none;
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--danger);
+  }
+
+  .error-msg.is-visible { display: block; }
+
+  .form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .form-actions .btn-primary { flex: 1 1 auto; }
+  .form-actions .btn-ghost { flex: 0 0 auto; }
+
+  /* ============================================================
+     УСПЕХ
+     ============================================================ */
+  .success-card {
+    max-width: 560px;
+    margin: 24px auto;
+    padding: 44px 28px;
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .success-icon {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 22px;
+    display: grid;
+    place-items: center;
+    font-size: 36px;
+    color: #fff;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #22c55e, #15a34a);
+    box-shadow: 0 14px 30px rgba(34, 197, 94, .32);
+    animation: pop .45s cubic-bezier(.2, .9, .3, 1.4);
+  }
+
+  @keyframes pop {
+    from { transform: scale(.6); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+
+  .success-title {
+    margin: 0 0 12px;
+    font-size: clamp(22px, 3vw, 28px);
+    letter-spacing: -.03em;
+  }
+
+  .success-text {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  .request-id {
+    display: inline-block;
+    margin: 22px 0 26px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+    background: #f2f3fd;
+    border: 1px dashed #c3c7ef;
+    border-radius: 14px;
+  }
+
+  .request-id strong {
+    font-size: 18px;
+    letter-spacing: .02em;
+    color: var(--text);
+  }
+
+  /* ============================================================
+     АДАПТИВ
+     ============================================================ */
+  @media (max-width: 720px) {
+    .header-tag { display: none; }
+    .screen { padding: 24px 0 56px; }
+    .hero { margin-bottom: 20px; }
+    .filters { margin: 20px 0; }
+    .cards { gap: 14px; }
+    .card { padding: 18px; }
+
+    .course-top { flex-direction: column; gap: 16px; }
+    .course-price-box { width: 100%; }
+
+    .cta-bar { bottom: 10px; padding: 12px; }
+    .cta-info {
+      width: 100%;
+      flex-direction: row;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .cta-bar .btn { flex: 1 1 100%; max-width: none; }
+
+    .form-card { padding: 20px; border-radius: 18px; }
+    .success-card { padding: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#" class="logo" id="logoLink">
+      <span class="logo-mark">S</span>
+      <span>SkillHub</span>
+    </a>
+    <span class="header-tag">Онлайн-школа цифровых профессий</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ========================= ЭКРАН 1: КАТАЛОГ ========================= -->
+  <section class="screen is-active" id="screen-catalog">
+    <div class="hero">
+      <h1>Учитесь <span class="accent">востребованным</span> профессиям онлайн</h1>
+      <p>Практические курсы с наставниками, реальными проектами и поддержкой на каждом этапе. Выбирайте направление и начинайте учиться в удобном темпе.</p>
+    </div>
+
+    <div class="filters" id="filters" role="group" aria-label="Фильтр курсов по направлению">
+      <button type="button" class="chip is-active" data-filter="all">Все</button>
+      <button type="button" class="chip" data-filter="frontend">Фронтенд</button>
+      <button type="button" class="chip" data-filter="backend">Бэкенд</button>
+      <button type="button" class="chip" data-filter="design">Дизайн</button>
+      <button type="button" class="chip" data-filter="data">Данные и ML</button>
+      <button type="button" class="chip" data-filter="mobile">Мобильная разработка</button>
+      <button type="button" class="chip" data-filter="marketing">Маркетинг</button>
+    </div>
+
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <!-- ========================= ЭКРАН 2: КУРС ========================= -->
+  <section class="screen" id="screen-course">
+    <button type="button" class="back-btn" id="backToCatalog">← Назад в каталог</button>
+
+    <div class="course-top">
+      <div class="course-title-wrap">
+        <h2 class="course-title" id="courseTitle"></h2>
+        <div class="course-pills">
+          <span class="meta-pill" id="courseCategory"></span>
+          <span class="meta-pill" id="courseLevel"></span>
+        </div>
+      </div>
+
+      <div class="course-price-box">
+        <div class="label">Стоимость</div>
+        <div class="value" id="coursePrice"></div>
+        <div class="duration" id="courseDuration"></div>
+      </div>
+    </div>
+
+    <p class="course-desc" id="courseDesc"></p>
+
+    <h3 class="section-title">Выберите тариф</h3>
+    <div class="tariffs" id="tariffs" role="radiogroup" aria-label="Тарифы курса"></div>
+
+    <div class="cta-bar">
+      <div class="cta-info">
+        <span class="cta-tariff" id="ctaTariff"></span>
+        <span class="cta-price" id="ctaPrice"></span>
+      </div>
+      <button type="button" class="btn btn-primary" id="enrollBtn">Записаться на курс</button>
+    </div>
+  </section>
+
+  <!-- ========================= ЭКРАН 3: ФОРМА ========================= -->
+  <section class="screen" id="screen-form">
+    <div class="form-card">
+      <button type="button" class="back-btn" id="backToCourse">← Назад к курсу</button>
+
+      <h2 class="form-title">Запись на курс</h2>
+      <p class="form-subtitle" id="formSubtitle"></p>
+
+      <div class="progress">
+        <div class="progress-top">
+          <span id="stepLabel">Шаг 1 из 2</span>
+          <span id="stepHint">Контакты</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <!-- Шаг 1 -->
+      <form id="step1Form" novalidate>
+        <div class="field">
+          <label for="nameInput">Ваше имя <span class="req">*</span></label>
+          <input id="nameInput" name="name" type="text" autocomplete="name" placeholder="Например, Анна" required>
+          <div class="error-msg" id="nameError" role="alert">Пожалуйста, укажите имя (минимум 2 символа)</div>
+        </div>
+
+        <div class="field">
+          <label for="emailInput">Электронная почта <span class="req">*</span></label>
+          <input id="emailInput" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+          <div class="error-msg" id="emailError" role="alert">Введите корректный адрес почты</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Далее →</button>
+      </form>
+
+      <!-- Шаг 2 -->
+      <form id="step2Form" hidden novalidate>
+        <div class="field">
+          <label for="phoneInput">Телефон <span class="req">*</span></label>
+          <input id="phoneInput" name="phone" type="tel" autocomplete="tel" placeholder="+7 (999) 123-45-67" required>
+          <div class="error-msg" id="phoneError" role="alert">Введите номер телефона (не менее 10 цифр)</div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" id="prevStepBtn">← Назад</button>
+          <button type="submit" class="btn btn-primary">Отправить заявку</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ========================= ЭКРАН 4: УСПЕХ ========================= -->
+  <section class="screen" id="screen-success">
+    <div class="success-card">
+      <div class="success-icon">✓</div>
+      <h2 class="success-title">Спасибо, ваша заявка отправлена!</h2>
+      <p class="success-text">
+        Мы получили вашу заявку. Менеджер свяжется с вами в течение рабочего дня,
+        расскажет о старте обучения и ответит на все вопросы.
+      </p>
+      <div class="request-id">Номер заявки: <strong id="requestId">—</strong></div>
+      <div>
+        <button type="button" class="btn btn-primary" id="toCatalogBtn">Вернуться в каталог</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============================================================
+     1. АНАЛИТИКА
+     ============================================================ */
+  function trackEvent(eventName, params) {
+    params = params || {};
+
+    // --- Яндекс.Метрика -----------------------------------------
+    // Раскомментируйте, когда подключите счётчик на странице.
+    // Не забудьте задать window.YM_COUNTER_ID = 00000000;
+    //
+    // if (typeof window.ym === 'function' && window.YM_COUNTER_ID) {
+    //   window.ym(window.YM_COUNTER_ID, 'reachGoal', eventName, params);
+    // }
+
+    // --- Google Analytics 4 -------------------------------------
+    // Раскомментируйте, когда подключите gtag.js.
+    //
+    // if (typeof window.gtag === 'function') {
+    //   window.gtag('event', eventName, params);
+    // }
+
+    // --- Отладка (можно удалить перед публикацией) ---------------
+    if (window.console && typeof window.console.log === 'function') {
+      console.log('[trackEvent]', eventName, params);
+    }
+  }
+
+  /* ============================================================
+     2. ДАННЫЕ: КУРСЫ
+     ============================================================ */
+  var COURSES = [
+    /* ---------- ФРОНТЕНД ---------- */
+    {
+      id: 'frontend',
+      category: 'frontend',
+      categoryLabel: 'Фронтенд',
+      level: 'С нуля',
+      title: 'Frontend-разработчик',
+      short: 'HTML, CSS, JavaScript и React — от первой вёрстки до проекта в портфолио.',
+      description: 'Курс построен как путь от полного нуля до уверенного junior-уровня. Вы начнёте с основ HTML и CSS, научитесь делать адаптивную вёрстку по макету из Figma, разберётесь с семантикой, доступностью и современными возможностями CSS — flexbox, grid, анимации. Затем перейдёте к JavaScript: типы данных, функции, замыкания, DOM, события, асинхронность, fetch и работа с внешними API. Отдельный блок посвящён Git, командной работе, код-ревью и базовым принципам чистого кода. Финальный проект — командная разработка SPA на React с реальным API, которая станет центральной работой в вашем портфолио. Каждый модуль заканчивается практической работой с проверкой наставником и обратной связью.',
+      duration: '6 месяцев',
+      tariffs: [
+        {
+          id: 'basic',
+          name: 'Базовый',
+          price: 49000,
+          features: ['Все модули курса', 'Доступ на 6 месяцев', 'Чат с однокурсниками', 'Проверка домашних заданий']
+        },
+        {
+          id: 'pro',
+          name: 'Продвинутый',
+          price: 79000,
+          features: ['Всё из базового тарифа', 'Бессрочный доступ', 'Личный наставник', 'Разбор портфолио и резюме', 'Помощь с трудоустройством']
+        }
+      ]
+    },
+    {
+      id: 'react',
+      category: 'frontend',
+      categoryLabel: 'Фронтенд',
+      level: 'Для практикующих',
+      title: 'React и современный JavaScript',
+      short: 'Хуки, состояние, роутинг и оптимизация — глубокое погружение в экосистему React.',
+      description: 'Курс для тех, кто уже уверенно пишет на JavaScript и хочет перейти на профессиональный уровень работы с React. Вы разберёте современный синтаксис ES2020+, замыкания, event loop и тонкости работы с асинхронностью и промисами. Далее — React: компоненты, хуки, контекст, оптимизация рендера через memo и useMemo, работа с формами и сложным состоянием через Zustand и Redux Toolkit. Отдельные модули посвящены роутингу, тестированию через Vitest и React Testing Library, сборке через Vite и деплою на Vercel. В финале вы соберёте SPA-приложение с авторизацией, работой с API, оптимизированной загрузкой данных и тестами, приближенное к реальным проектам продуктовых команд.',
+      duration: '4 месяца',
+      tariffs: [
+        {
+          id: 'basic',
+          name: 'Базовый',
+          price: 39000,
+          features: ['Все модули курса', 'Доступ на 4 месяца', 'Чат с однокурсниками', 'Проверка домашних заданий']
+        },
+        {
+          id: 'pro',
+          name: 'Продвинутый',
+          price: 59000,
+          features: ['Всё из базового тарифа', 'Бессрочный доступ', 'Личный наставник', 'Код-ревью проектов', 'Подготовка к собеседованию']
+        }
+      ]
+    },
+
+    /* ---------- БЭКЕНД ---------- */
+    {
+      id: 'backend',
+      category: 'backend',
+      categoryLabel: 'Бэкенд',
+      level: 'С нуля',
+      title: 'Backend-разработчик на Python',
+      short: 'Python, базы данных, REST API, Docker и деплой — полный стек серверной разработки.',
+      description: 'Вы освоите Python с нуля и научитесь писать чистый, поддерживаемый код. Разберётесь с ООП, типизацией, работой с базами данных: SQL, PostgreSQL и ORM на примере SQLAlchemy. Затем перейдёте к проектированию REST API на FastAPI и Django: авторизация, валидация, работа с внешними сервисами и фоновыми задачами через Celery и Redis. Отдельный модуль посвящён безопасности: защита от SQL-инъекций, XSS, CSRF, работа с секретами и логированием. В завершающей части — Docker, CI/CD, деплой на сервер и базовый мониторинг. Финальный проект — собственный сервис с API, базой данных и контейнеризацией, который вы сможете показать работодателю.',
+      duration: '7 месяцев',
+      tariffs: [
+        {
+          id: 'basic',
+          name: 'Базовый',
+          price: 54000,
+          features: ['Все модули курса', 'Доступ на 7 месяцев', 'Чат с однокурсниками', 'Проверка домашних заданий']
+        },
+        {
+          id: 'pro',
+          name: 'Продвинутый',
+          price: 84000,
+          features: ['Всё из базового тарифа', 'Бессрочный доступ', 'Личный наставник', 'Стажировка в команде', 'Помощь с трудоустройством']
+        }
+      ]
+    },
+    {
+      id: 'nodejs',
+      category: 'backend',
+      categoryLabel: 'Бэкенд',
+      level: 'Для практикующих',
+      title: 'Node.js и микросервисы',
+      short: 'Асинхронный JavaScript на сервере, PostgreSQL, очереди, Docker и архитектура микросервисов.',
+      description: 'Курс для разработчиков, знакомых с JavaScript, которые хотят освоить серверную разработку на Node.js. Вы разберётесь с event loop, стримами и асинхронностью на практике, научитесь строить API на Express и Fastify. Отдельные блоки — работа с PostgreSQL через Prisma, Redis, очередями на BullMQ и фоновыми задачами. Затем перейдёте к архитектуре: разбиение монолита на микросервисы, REST и gRPC-контракты, трассировка запросов, Docker Compose и базовый Kubernetes. Финальный проект — система из нескольких сервисов с обменом сообщениями, авторизацией и мониторингом через Prometheus и Grafana.',
+      duration: '5 месяцев',
+      tariffs: [
+        {
+          id: 'basic',
+          name: 'Базовый',
+          price: 46000,
+          features: ['Все модули курса', 'Доступ на 5 месяцев', 'Чат с однокурсниками', 'Проверка домашних заданий']
+        },
+        {
+          id: 'pro',
+          name: 'Продвинутый',
+          price: 72000,
+          features: ['Всё из базового тарифа', 'Бессрочный доступ', 'Личный наставник', 'Код-ревью проектов', 'Подготовка к собеседованию']
+        }
+      ]
+    },
+
+    /* ---------- ДИЗАЙН ---------- */
+    {
+      id: 'design',
+      category: 'design',
+      categoryLabel: 'Дизайн',
+      level: 'С нуля',
+      title: 'UI/UX дизайнер',
+      short: 'Исследования, прототипы и интерфейсы в Figma — от идеи до макета для разработки.',
+      description: 'Научитесь проводить пользовательские исследования, собирать прототипы в Figma, проектировать интерфейсы и передавать макеты в разработку. Курс построен вокруг реальных брифов: от идеи и гипотез до готового дизайн-макета и презентации заказчику. Вы разберёте типографику, сетки, цвет, композицию и принципы доступности. Отдельный модуль — дизайн мобильных приложений и адаптивных интерфейсов. В финале вы соберёте портфолио из трёх кейсов с описанием процесса, принятых решений и результата — именно в таком виде дизайнеров приглашают на собеседования.',
+      duration: '5 месяцев',
+      tariffs: [
+        {
+          id: 'basic',
+          name: 'Базовый',
+          price: 44000,
+          features: ['Все модули курса', 'Доступ на 5 месяцев', 'Чат с однокурсниками', 'Проверка домашних заданий']
+        },
+        {
+          id: 'pro',
+          name: 'Продвинутый',
+          price: 69000,
+          features: ['Всё из базового тарифа', 'Бессрочный доступ', 'Личный наставник', 'Разбор портфолио', 'Помощь с первым заказом']
+        }
+      ]
+    },
+    {
+      id: 'product-design',
+      category: 'design',
+      categoryLabel: 'Дизайн',
+      level: 'Продвинутый',
+      title: 'Продуктовый дизайн и дизайн-системы',
+      short: 'Продуктовое мышление, дизайн-системы, компоненты и передача макетов в разработку.',
+      description: 'Курс для дизайнеров, которые хотят расти до уровня продуктового дизайнера или лида. Вы научитесь работать с метриками, гипотезами и A/B-тестами, принимать решения на основе данных, а не вкуса, и защищать их перед командой и стейкхолдерами. Отдельные модули — создание дизайн-системы с нуля: токены, компоненты, документация, поддержка в Figma и синхронизация с кодом. Разберёте работу в кросс-функциональной команде, дизайн-ревью и процесс передачи макетов разработчикам. Финал — проект дизайн-системы для вымышленного продукта с документацией, компонентами и презентацией.',
+      duration: '3 месяца',
+      tariffs: [
+        {
+          id: 'basic',
+          name: 'Базовый',
+          price: 35000,
+          features: ['Все модули курса', 'Доступ на 3 месяца', 'Чат с однокурсниками', 'Проверка домашних заданий']
+        },
+        {
+          id: 'pro',
+          name: 'Продвинутый',
+          price: 55000,
+          features: ['Всё из базового тарифа', 'Бессрочный доступ', 'Личный наставник', 'Разбор портфолио', 'Подготовка к собеседованию']
+        }
+      ]
+    },
+
+    /* ---------- ДАННЫЕ И ML ---------- */
+    {
+      id: 'data-analyst',
+      category: 'data',
+      categoryLabel: 'Данные и ML',
+      level: 'С нуля',
+      title: 'Аналитик данных',
+      short: 'SQL, Python, Excel и дашборды — превращаем сырые данные в решения для бизнеса.',
+      description: 'Вы научитесь собирать, очищать и анализировать данные с помощью SQL, Python и Excel. Разберётесь с продуктовыми и маркетинговыми метриками, воронками, когортами и A/B-тестами. Отдельный блок посвящён визуализации и построению дашбордов в Tableau и Metabase. Вы научитесь формулировать гипотезы, проверять их статистически и презентовать результаты стейкхолдерам. В финале курса — сквозной проект: анализ реального датасета с выводами и рекомендациями для бизнеса, оформленный как кейс в портфолио.',
+      duration: '4 месяца',
+      tariffs: [
+        {
+          id: 'basic',
+          name: 'Базовый',
+          price: 42000,
+          features: ['Все модули курса', 'Доступ на 4 месяца', 'Чат с однокурсниками', 'Проверка домашних заданий']
+        },
+        {
+          id: 'pro',
+          name: 'Продвинутый',
+          price: 65000,
+          features: ['Всё из базового тарифа', 'Бессрочный доступ', 'Личный наставник', 'Разбор портфолио', 'Помощь с трудоустройством']
+        }
+      ]
+    },
+    {
+      id: 'data-science',
+      category: 'data',
+      categoryLabel: 'Данные и ML',
+      level: 'Продвинутый',
+      title: 'Data Scientist / ML-инженер',
+      short: 'Python, машинное обучение, нейросети и MLOps — от модели до продакшена.',
+      description: 'Курс для тех, кто хочет освоить машинное обучение и довести модель до продакшена. Вы начнёте с математической базы: линейная алгебра, теория вероятностей, статистика. Затем — классический ML: регрессии, деревья, бустинг, кластеризация и оценка качества моделей. Отдельные модули — нейросети, PyTorch, компьютерное зрение и NLP на трансформерах. Продвинутая часть посвящена MLOps: трекинг экспериментов, версионирование данных, деплой модели в API и мониторинг дрейфа. Финал — проект с моделью, развёрнутой в облаке, и презентацией бизнес-результатов.',
+      duration: '9 месяцев',
+      tariffs: [
+        {
+          id: 'basic',
+          name: 'Базовый',
+          price: 69000,
+          features: ['Все модули курса', 'Доступ на 9 месяцев', 'Чат с однокурсниками', 'Проверка домашних заданий']
+        },
+        {
+          id: 'pro',
+          name: 'Продвинутый',
+          price: 99000,
+          features: ['Всё из базового тарифа', 'Бессрочный доступ', 'Личный наставник', 'Разбор портфолио', 'Помощь с трудоустройством']
+        }
+      ]
+    },
+
+    /* ---------- МОБИЛЬНАЯ РАЗРАБОТКА ---------- */
+    {
+      id: 'mobile',
+      category: 'mobile',
+      categoryLabel: 'Мобильная разработка',
+      level: 'Для практикующих',
+      title: 'Мобильная разработка на React Native',
+      short: 'Один код — два приложения. React Native, навигация, публикация в сторах.',
+      description: 'Вы научитесь создавать кроссплатформенные мобильные приложения на React Native, используя уже знакомый JavaScript. Курс охватывает навигацию, работу с локальным хранилищем, push-уведомления, камеру, геолокацию и платежи. Отдельный модуль — оптимизация производительности и нативная интеграция на Swift и Kotlin для случаев, когда стандартных возможностей не хватает. Вы разберётесь с публикацией в App Store и Google Play, сборкой релизов, кодовой подписью и аналитикой в приложении. Финал — готовое приложение в закрытом тестировании или в сторе, которое можно показать в портфолио.',
+      duration: '4 месяца',
+      tariffs: [
+        {
+          id: 'basic',
+          name: 'Базовый',
+          price: 44000,
+          features: ['Все модули курса', 'Доступ на 4 месяца', 'Чат с однокурсниками', 'Проверка домашних заданий']
+        },
+        {
+          id: 'pro',
+          name: 'Продвинутый',
+          price: 68000,
+          features: ['Всё из базового тарифа', 'Бессрочный доступ', 'Личный наставник', 'Код-ревью проектов', 'Помощь с публикацией в сторах']
+        }
+      ]
+    },
+
+    /* ---------- МАРКЕТИНГ ---------- */
+    {
+      id: 'marketing',
+      category: 'marketing',
+      categoryLabel: 'Маркетинг',
+      level: 'С нуля',
+      title: 'Интернет-маркетолог',
+      short: 'Трафик, воронки, реклама и аналитика — как приводить клиентов и считать деньги.',
+      description: 'Курс для тех, кто хочет освоить digital-маркетинг с нуля и работать с реальными бюджетами. Вы разберёте воронку, каналы трафика, контент-маркетинг и email-рассылки, научитесь настраивать рекламу в Яндекс.Директ и VK Ads. Отдельные модули — веб-аналитика, метрики, атрибуция и сквозная аналитика, работа с CRM. Вы научитесь считать ROMI, CAC и LTV и принимать решения на основе данных, а не интуиции. Финал — стратегия продвижения для реального бизнеса с медиапланом, прогнозом бюджета и защитой перед экспертами.',
+      duration: '3 месяца',
+      tariffs: [
+        {
+          id: 'basic',
+          name: 'Базовый',
+          price: 32000,
+          features: ['Все модули курса', 'Доступ на 3 месяца', 'Чат с однокурсниками', 'Проверка домашних заданий']
+        },
+        {
+          id: 'pro',
+          name: 'Продвинутый',
+          price: 49000,
+          features: ['Всё из базового тарифа', 'Бессрочный доступ', 'Личный наставник', 'Разбор реального проекта', 'Помощь с трудоустройством']
+        }
+      ]
+    }
+  ];
+
+  var priceFormatter = new Intl.NumberFormat('ru-RU');
+
+  function formatPrice(value) {
+    return priceFormatter.format(value) + ' ₽';
+  }
+
+  /* ============================================================
+     3. СОСТОЯНИЕ И ССЫЛКИ НА DOM
+     ============================================================ */
+  var state = {
+    filter: 'all',
+    courseId: null,
+    tariffId: null,
+    step: 1
+  };
+
+  var formState = { name: '', email: '', phone: '' };
+
+  var el = {
+    screens: {
+      catalog: document.getElementById('screen-catalog'),
+      course: document.getElementById('screen-course'),
+      form: document.getElementById('screen-form'),
+      success: document.getElementById('screen-success')
+    },
+    logoLink: document.getElementById('logoLink'),
+
+    // каталог
+    filters: document.getElementById('filters'),
+    cards: document.getElementById('cards'),
+
+    // карточка курса
+    backToCatalog: document.getElementById('backToCatalog'),
+    courseTitle: document.getElementById('courseTitle'),
+    courseCategory: document.getElementById('courseCategory'),
+    courseLevel: document.getElementById('courseLevel'),
+    coursePrice: document.getElementById('coursePrice'),
+    courseDuration: document.getElementById('courseDuration'),
+    courseDesc: document.getElementById('courseDesc'),
+    tariffs: document.getElementById('tariffs'),
+    ctaTariff: document.getElementById('ctaTariff'),
+    ctaPrice: document.getElementById('ctaPrice'),
+    enrollBtn: document.getElementById('enrollBtn'),
+
+    // форма
+    backToCourse: document.getElementById('backToCourse'),
+    formSubtitle: document.getElementById('formSubtitle'),
+    stepLabel: document.getElementById('stepLabel'),
+    stepHint: document.getElementById('stepHint'),
+    progressFill: document.getElementById('progressFill'),
+    step1Form: document.getElementById('step1Form'),
+    step2Form: document.getElementById('step2Form'),
+    nameInput: document.getElementById('nameInput'),
+    nameError: document.getElementById('nameError'),
+    emailInput: document.getElementById('emailInput'),
+    emailError: document.getElementById('emailError'),
+    phoneInput: document.getElementById('phoneInput'),
+    phoneError: document.getElementById('phoneError'),
+    prevStepBtn: document.getElementById('prevStepBtn'),
+
+    // успех
+    requestId: document.getElementById('requestId'),
+    toCatalogBtn: document.getElementById('toCatalogBtn')
+  };
+
+  /* ============================================================
+     4. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+     ============================================================ */
+  function getCourse() {
+    for (var i = 0; i < COURSES.length; i++) {
+      if (COURSES[i].id === state.courseId) return COURSES[i];
+    }
+    return null;
+  }
+
+  function getTariff(course) {
+    if (!course) return null;
+    for (var i = 0; i < course.tariffs.length; i++) {
+      if (course.tariffs[i].id === state.tariffId) return course.tariffs[i];
+    }
+    return course.tariffs[0];
+  }
+
+  function showScreen(name) {
+    Object.keys(el.screens).forEach(function (key) {
+      el.screens[key].classList.toggle('is-active', key === name);
+    });
+    window.scrollTo(0, 0);
+  }
+
+  function setFieldError(input, errorEl, isError) {
+    input.classList.toggle('is-invalid', isError);
+    errorEl.classList.toggle('is-visible', isError);
+  }
+
+  function clearErrors() {
+    setFieldError(el.nameInput, el.nameError, false);
+    setFieldError(el.emailInput, el.emailError, false);
+    setFieldError(el.phoneInput, el.phoneError, false);
+  }
+
+  function generateRequestId() {
+    return Math.floor(100000 + Math.random() * 900000);
+  }
+
+  /* ============================================================
+     5. КАТАЛОГ
+     ============================================================ */
+  function renderCatalog() {
+    var list = COURSES.filter(function (course) {
+      return state.filter === 'all' || course.category === state.filter;
+    });
+
+    el.cards.innerHTML = list.map(function (course) {
+      return '' +
+        '<article class="card">' +
+          '<span class="badge">' + course.categoryLabel + '</span>' +
+          '<h3 class="card-title">' + course.title + '</h3>' +
+          '<p class="card-text">' + course.short + '</p>' +
+          '<div class="card-footer">' +
+            '<span class="card-price">' + formatPrice(course.tariffs[0].price) + '</span>' +
+            '<button type="button" class="btn btn-ghost btn-sm" data-course-id="' + course.id + '">Подробнее</button>' +
+          '</div>' +
+        '</article>';
+    }).join('');
+  }
+
+  /* ============================================================
+     6. КАРТОЧКА КУРСА
+     ============================================================ */
+  function renderCourse(course) {
+    el.courseTitle.textContent = course.title;
+    el.courseCategory.textContent = course.categoryLabel;
+    el.courseLevel.textContent = course.level;
+    el.courseDesc.textContent = course.description;
+    el.coursePrice.textContent = 'от ' + formatPrice(course.tariffs[0].price);
+    el.courseDuration.textContent = course.duration + ' обучения';
+
+    el.tariffs.innerHTML = course.tariffs.map(function (tariff) {
+      var selected = tariff.id === state.tariffId;
+      var features = tariff.features.map(function (feature) {
+        return '<li>' + feature + '</li>';
+      }).join('');
+
+      return '' +
+        '<div class="tariff' + (selected ? ' is-selected' : '') + '"' +
+             ' role="radio" tabindex="0"' +
+             ' aria-checked="' + (selected ? 'true' : 'false') + '"' +
+             ' data-tariff-id="' + tariff.id + '">' +
+          '<span class="tariff-check" aria-hidden="true"></span>' +
+          '<span class="tariff-name">' + tariff.name + '</span>' +
+          '<span class="tariff-price">' + formatPrice(tariff.price) + '</span>' +
+          '<ul class="tariff-features">' + features + '</ul>' +
+        '</div>';
+    }).join('');
+
+    updateCtaBar(course);
+  }
+
+  function updateCtaBar(course) {
+    var tariff = getTariff(course);
+    if (!tariff) return;
+    el.ctaTariff.textContent = 'Тариф «' + tariff.name + '»';
+    el.ctaPrice.textContent = formatPrice(tariff.price);
+  }
+
+  function openCourse(courseId) {
+    var course = null;
+    for (var i = 0; i < COURSES.length; i++) {
+      if (COURSES[i].id === courseId) { course = COURSES[i]; break; }
+    }
+    if (!course) return;
+
+    state.courseId = course.id;
+    state.tariffId = course.tariffs[0].id;
+
+    renderCourse(course);
+    showScreen('course');
+
+    trackEvent('course_open', {
+      course: course.title,
+      course_id: course.id
+    });
+  }
+
+  function selectTariff(tariffId) {
+    var course = getCourse();
+    if (!course) return;
+
+    var tariff = null;
+    for (var i = 0; i < course.tariffs.length; i++) {
+      if (course.tariffs[i].id === tariffId) { tariff = course.tariffs[i]; break; }
+    }
+    if (!tariff) return;
+
+    state.tariffId = tariff.id;
+
+    var nodes = el.tariffs.querySelectorAll('.tariff');
+    Array.prototype.forEach.call(nodes, function (node) {
+      var isSelected = node.getAttribute('data-tariff-id') === tariff.id;
+      node.classList.toggle('is-selected', isSelected);
+      node.setAttribute('aria-checked', isSelected ? 'true' : 'false');
+    });
+
+    updateCtaBar(course);
+
+    trackEvent('tariff_select', {
+      tariff: tariff.name,
+      price: tariff.price,
+      course: course.title
+    });
+  }
+
+  /* ============================================================
+     7. ФОРМА
+     ============================================================ */
+  function updateStepUI() {
+    var isFirst = state.step === 1;
+
+    if (isFirst) {
+      el.step1Form.removeAttribute('hidden');
+      el.step2Form.setAttribute('hidden', '');
+    } else {
+      el.step1Form.setAttribute('hidden', '');
+      el.step2Form.removeAttribute('hidden');
+    }
+
+    el.progressFill.style.width = isFirst ? '50%' : '100%';
+    el.stepLabel.textContent = 'Шаг ' + state.step + ' из 2';
+    el.stepHint.textContent = isFirst ? 'Контакты' : 'Подтверждение';
+  }
+
+  function openForm() {
+    var course = getCourse();
+    var tariff = getTariff(course);
+    if (!course || !tariff) return;
+
+    state.step = 1;
+    updateStepUI();
+    clearErrors();
+
+    el.formSubtitle.textContent =
+      course.title + ' · тариф «' + tariff.name + '» · ' + formatPrice(tariff.price);
+
+    showScreen('form');
+
+    trackEvent('form_start', {
+      course: course.title,
+      tariff: tariff.name,
+      price: tariff.price
+    });
+  }
+
+  function showSuccess(requestId) {
+    var course = getCourse();
+    var tariff = getTariff(course);
+
+    el.requestId.textContent = '№ ' + requestId;
+    showScreen('success');
+
+    trackEvent('form_success', {
+      request_id: requestId,
+      course: course ? course.title : '',
+      tariff: tariff ? tariff.name : ''
+    });
+
+    // Сброс формы для следующей заявки
+    el.step1Form.reset();
+    el.step2Form.reset();
+    clearErrors();
+    formState = { name: '', email: '', phone: '' };
+    state.step = 1;
+    updateStepUI();
+  }
+
+  function handleStep1Submit(event) {
+    if (event) event.preventDefault();
+
+    var name = el.nameInput.value.trim();
+    var email = el.emailInput.value.trim();
+
+    var nameValid = name.length >= 2;
+    var emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+
+    setFieldError(el.nameInput, el.nameError, !nameValid);
+    setFieldError(el.emailInput, el.emailError, !emailValid);
+
+    if (!nameValid || !emailValid) return;
+
+    formState.name = name;
+    formState.email = email;
+
+    state.step = 2;
+    updateStepUI();
+
+    var course = getCourse();
+    var tariff = getTariff(course);
+
+    trackEvent('form_step1_complete', {
+      step: 1,
+      course: course ? course.title : '',
+      tariff: tariff ? tariff.name : ''
+    });
+  }
+
+  function handleStep2Submit(event) {
+    if (event) event.preventDefault();
+
+    var phone = el.phoneInput.value.trim();
+    var digits = phone.replace(/\D/g, '');
+    var phoneValid = digits.length >= 10;
+
+    setFieldError(el.phoneInput, el.phoneError, !phoneValid);
+    if (!phoneValid) return;
+
+    formState.phone = phone;
+
+    var course = getCourse();
+    var tariff = getTariff(course);
+
+    // Персональные данные намеренно не отправляем в аналитику —
+    // только обезличенные параметры заявки.
+    trackEvent('form_submit', {
+      course: course ? course.title : '',
+      tariff: tariff ? tariff.name : '',
+      price: tariff ? tariff.price : 0
+    });
+
+    showSuccess(generateRequestId());
+  }
+
+  /* ============================================================
+     8. ОБРАБОТЧИКИ СОБЫТИЙ
+     ============================================================ */
+
+  // --- Фильтр каталога ---
+  el.filters.addEventListener('click', function (event) {
+    var chip = event.target.closest('.chip');
+    if (!chip) return;
+
+    var value = chip.getAttribute('data-filter');
+    if (value === state.filter) return;
+
+    state.filter = value;
+
+    var chips = el.filters.querySelectorAll('.chip');
+    Array.prototype.forEach.call(chips, function (node) {
+      node.classList.toggle('is-active', node === chip);
+    });
+
+    renderCatalog();
+
+    trackEvent('filter_change', {
+      filter: chip.textContent.trim()
+    });
+  });
+
+  // --- Клик по «Подробнее» в карточке ---
+  el.cards.addEventListener('click', function (event) {
+    var button = event.target.closest('[data-course-id]');
+    if (!button) return;
+    openCourse(button.getAttribute('data-course-id'));
+  });
+
+  // --- Выбор тарифа ---
+  el.tariffs.addEventListener('click', function (event) {
+    var node = event.target.closest('.tariff');
+    if (!node) return;
+    selectTariff(node.getAttribute('data-tariff-id'));
+  });
+
+  el.tariffs.addEventListener('keydown', function (event) {
+    if (event.key !== 'Enter' && event.key !== ' ' && event.key !== 'Spacebar') return;
+    var node = event.target.closest('.tariff');
+    if (!node) return;
+    event.preventDefault();
+    selectTariff(node.getAttribute('data-tariff-id'));
+  });
+
+  // --- Навигация ---
+  el.backToCatalog.addEventListener('click', function () {
+    showScreen('catalog');
+  });
+
+  el.backToCourse.addEventListener('click', function () {
+    showScreen('course');
+  });
+
+  el.toCatalogBtn.addEventListener('click', function () {
+    showScreen('catalog');
+  });
+
+  el.logoLink.addEventListener('click', function (event) {
+    event.preventDefault();
+    showScreen('catalog');
+  });
+
+  // --- Переход к форме записи ---
+  el.enrollBtn.addEventListener('click', openForm);
+
+  // --- Шаг 1 → Шаг 2 ---
+  // Дублируем на клик кнопки, чтобы переход срабатывал надёжно во всех браузерах.
+  el.step1Form.addEventListener('submit', handleStep1Submit);
+  var step1NextBtn = el.step1Form.querySelector('button[type="submit"]');
+  if (step1NextBtn) {
+    step1NextBtn.addEventListener('click', function (event) {
+      event.preventDefault();
+      handleStep1Submit();
+    });
+  }
+
+  // --- Кнопка «Назад» на шаге 2 ---
+  el.prevStepBtn.addEventListener('click', function () {
+    state.step = 1;
+    updateStepUI();
+  });
+
+  // --- Отправка заявки ---
+  el.step2Form.addEventListener('submit', handleStep2Submit);
+  var step2SubmitBtn = el.step2Form.querySelector('button[type="submit"]');
+  if (step2SubmitBtn) {
+    step2SubmitBtn.addEventListener('click', function (event) {
+      event.preventDefault();
+      handleStep2Submit();
+    });
+  }
+
+  /* ============================================================
+     9. ИНИЦИАЛИЗАЦИЯ
+     ============================================================ */
+  renderCatalog();
+  showScreen('catalog');
+
+  trackEvent('catalog_view', {
+    screen: 'catalog'
+  });
+})();
+</script>
+
+</body>
+</html>
